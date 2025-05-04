@@ -2,11 +2,11 @@
 session_start();
 require 'config.php';
 
-// Включение отображения ошибок для отладки
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Проверка авторизации пользователя
+
 $user = null;
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
@@ -16,7 +16,7 @@ if (isset($_SESSION['user_id'])) {
 }
 
 try {
-    // Получение постов
+    
     $stmt = $pdo->query('SELECT posts.id, posts.content, posts.created_at, posts.user_id, posts.image_path, users.username,
                         (SELECT COUNT(*) FROM likes WHERE likes.post_id = posts.id) AS like_count
                         FROM posts 
@@ -24,7 +24,7 @@ try {
                         ORDER BY posts.created_at DESC');
     $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Получение новостей
+    
     $stmt = $pdo->query('SELECT news.id, news.title, news.content, news.created_at, users.username FROM news JOIN users ON news.created_by = users.id ORDER BY news.created_at DESC');
     $news = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
